@@ -1,0 +1,57 @@
+name: CD Pipeline
+
+
+on:
+  workflow_run:
+    workflows: ["CI Pipeline"]
+    types:
+      - completed
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region:        ${{ secrets.SECRETS_AWS_REGION }}
+
+      - name: Get AWS secrets
+        uses: aws-actions/aws-secretsmanager-get-secrets@v1
+        with:
+          secret-ids:        interviewai-python
+          parse-json-secrets: true
+
+      - name: Create env file without prefix
+        run: |
+          # Create a clean .env file
+          rm -f .env
+          touch .env
+          chmod 600 .env
+          
+          # Export variables without the prefix
+          for var in $(env | grep '^INTERVIEWAI_PYTHON_' | cut -d= -f1); do
+            # Extract the variable name without the prefix
+            name_without_prefix=$(echo $var | sed 's/INTERVIEWAI_PYTHON_//')
+            
+            # Get the value and write to .env file
+            echo "$name_without_prefix=${!var}" >> .env
+          done
+
+      - name: Pull Docker image
+        run: sudo docker pull bilalrana351/interviewai-fastapi:latest
+
+      - name: Delete old container (if any)
+        run: sudo docker rm -f interviewai-ai-fastapi || true
+
+      - name: Run Docker container
+        run: |
+          sudo docker run -d \
+            --env-file .env \
+            -e PORT=8000 \
+            -p 8000:8000 \
+            --name interviewai-ai-fastapi \
+            bilalrana351/interviewai-fastapi:latest

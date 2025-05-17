@@ -1,0 +1,13 @@
+[project]
+name = "interviewai"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi[standard]>=0.115.12",
+    "langchain>=0.3.25",
+    "mistralai>=1.7.0",
+    "openai>=1.78.0",
+    "python-dotenv>=1.1.0",
+]

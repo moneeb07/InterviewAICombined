@@ -1,0 +1,48 @@
+{
+  "name": "interviewainodebackend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently \"node dist/index.js\" \"node dist/workers/codeEvaluation.worker.js\"",
+    "start:server": "node dist/index.js",
+    "start:worker": "node dist/workers/codeEvaluation.worker.js",
+    "clean": "rm -rf dist",
+    "build": "npm run clean && tsc",
+    "dev": "nodemon --exec npx ts-node src/index.ts",
+    "worker": "ts-node src/workers/codeEvaluation.worker.ts",
+    "dev:all": "concurrently \"npm run dev\" \"npm run worker\"",
+    "start:all": "concurrently \"npm run start:server\" \"npm run start:worker\"",
+    "tunnel": "cloudflared tunnel --url http://localhost:5000"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "axios": "^1.9.0",
+    "better-auth": "^1.2.7",
+    "bullmq": "^5.51.1",
+    "chalk": "^4.1.2",
+    "cloudinary": "^2.6.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "ioredis": "^5.6.1",
+    "mongodb": "^5.7.0",
+    "mongoose": "^7.5.0",
+    "on-finished": "^2.4.1",
+    "openai": "^4.98.0",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.17",
+    "@types/node": "^18.15.11",
+    "@types/on-finished": "^2.3.1",
+    "@types/uuid": "^9.0.1",
+    "concurrently": "^9.1.2",
+    "nodemon": "^2.0.22",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4"
+  }
+}
