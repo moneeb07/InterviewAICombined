@@ -1,6 +1,6 @@
-# InterviewAI — Web Client
+# InterviewAI - Web Client
 
-The web frontend for the InterviewAI platform — a **React + TypeScript + Vite** single-page app. It's what candidates and interviewers actually use: dashboards, job boards, scheduling, the in-browser code editor, the system-design whiteboard, and the voice-interview client.
+The web frontend for the InterviewAI platform - a **React + TypeScript + Vite** single-page app. It's what candidates and interviewers actually use: dashboards, job boards, scheduling, the in-browser code editor, the system-design whiteboard, and the voice-interview client.
 
 It talks to the [Backend API](../InterviewAI-Backend) and never to the AI microservice or model providers directly.
 
@@ -10,19 +10,19 @@ It talks to the [Backend API](../InterviewAI-Backend) and never to the AI micros
 
 The app has two main personas with their own dashboards (both mounted under [src/App.tsx](src/App.tsx)):
 
-### `/employee` — interviewer / company owner
+### `/employee` - interviewer / company owner
 - Create companies and invite employees
 - Post jobs with configurable round types, required frameworks, and deadlines
 - View candidate lists per job, schedule interviews, edit round-level details
 - Drill into a specific interview / round to see scores, transcripts, code submissions, and AI remarks
 
-### `/candidate` — interviewee
+### `/candidate` - interviewee
 - See interviews you've been invited to
 - Upload a CV (which gets OCR'd into markdown by the AI microservice)
 - Sit each round of the interview:
-  - **Coding** ([CodingProblem.tsx](src/pages/CodingProblem.tsx)) — Monaco code editor, language picker, run-against-test-cases
-  - **System Design** ([SystemDesign.tsx](src/pages/SystemDesign.tsx)) — Excalidraw whiteboard + text answer, submit for AI grading
-  - **Knowledge-Based** ([KnowledgeBasedInterviewPage.tsx](src/pages/KnowledgeBasedInterviewPage.tsx)) — voice call with a Vapi agent that's later transcribed and scored
+  - **Coding** ([CodingProblem.tsx](src/pages/CodingProblem.tsx)) - Monaco code editor, language picker, run-against-test-cases
+  - **System Design** ([SystemDesign.tsx](src/pages/SystemDesign.tsx)) - Excalidraw whiteboard + text answer, submit for AI grading
+  - **Knowledge-Based** ([KnowledgeBasedInterviewPage.tsx](src/pages/KnowledgeBasedInterviewPage.tsx)) - voice call with a Vapi agent that's later transcribed and scored
 - View final results once all rounds are completed and evaluated
 
 Plus the public marketing pages: Landing, Features, Pricing, About, Contact.
@@ -37,7 +37,7 @@ src/
 ├── main.tsx                 # ReactDOM + providers
 ├── pages/                   # One component per top-level route
 ├── components/              # Feature-grouped UI (Auth, Candidate, Company, Employee, Interview, Job, Landing, Voice, common, layout)
-├── services/                # API clients — one file per backend resource
+├── services/                # API clients - one file per backend resource
 │   ├── api.ts               # Axios instance with auth credentials
 │   ├── cvService.ts
 │   ├── systemDesign.ts
@@ -57,7 +57,7 @@ A few things worth knowing:
 - **Data fetching** is TanStack Query on top of an axios instance configured with `withCredentials: true` so the Better Auth session cookie travels with every request.
 - **Theming** is DaisyUI's data-theme attribute toggled between `lemonade` (light) and `forest` (dark), persisted to `localStorage`.
 - **Form handling** is React Hook Form + Zod for validation.
-- **Coding round** uses `@monaco-editor/react` — the Monaco editor that powers VS Code in the browser.
+- **Coding round** uses `@monaco-editor/react` - the Monaco editor that powers VS Code in the browser.
 - **System design round** uses `@excalidraw/excalidraw` for the whiteboard, then exports the drawing as an image alongside the candidate's text answer.
 - **Knowledge-based round** uses `@vapi-ai/web` to start a voice session with a Vapi assistant. When the call ends, Vapi calls back into the backend (not the client) with the transcript.
 - **Bulk candidate upload** parses CSVs in-browser with `papaparse`.
@@ -108,13 +108,13 @@ The backend's CORS allowlist already includes `http://localhost:5173`, so cookie
 
 ## Deployment
 
-The client deploys to **Vercel** — config is in [vercel.json](vercel.json). The production origin is `https://interview-ai-client-nine.vercel.app` (with `https://web.interview-ai.tech` as the custom domain). Both are in the backend's CORS allowlist.
+The client deploys to **Vercel** - config is in [vercel.json](vercel.json). The production origin is `https://interview-ai-client-nine.vercel.app` (with `https://web.interview-ai.tech` as the custom domain). Both are in the backend's CORS allowlist.
 
 ---
 
 ## Contributing
 
 - **New page?** Add a component to [src/pages/](src/pages/) and wire it into [src/App.tsx](src/App.tsx). Put it under the right layout (`MainLayout` for public, `DashboardLayout` for app), and wrap in `PrivateRoute` if it needs auth.
-- **New backend resource?** Add a service file in [src/services/](src/services/) that uses the shared axios instance — don't import axios directly in components.
+- **New backend resource?** Add a service file in [src/services/](src/services/) that uses the shared axios instance - don't import axios directly in components.
 - **Shared UI?** Drop it under [src/components/common/](src/components/common/). Feature-specific components belong in `src/components/<Feature>/`.
 - **Styling** uses Tailwind utility classes + DaisyUI components. Keep theme tokens (`bg-base-100`, `text-base-content`, `btn-primary`, etc.) so both themes stay consistent.

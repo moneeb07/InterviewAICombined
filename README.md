@@ -1,14 +1,14 @@
 # InterviewAI
 
-InterviewAI is an end-to-end, AI-driven technical interview platform. Companies create jobs, schedule interviews, and let candidates complete multi-round assessments — coding, system design, voice-based knowledge interviews, and CV-aware final evaluation — entirely online, with AI doing the grading.
+InterviewAI is an end-to-end, AI-driven technical interview platform. Companies create jobs, schedule interviews, and let candidates complete multi-round assessments - coding, system design, voice-based knowledge interviews, and CV-aware final evaluation - entirely online, with AI doing the grading.
 
 This repository is the **monorepo** that holds all three services that make up the platform:
 
 ```
 InterviewAICombined/
-├── InterviewAI-AIMicroservice/   # Python FastAPI — AI grading + CV parsing
-├── InterviewAI-Backend/          # Node.js/Express + MongoDB — core API
-└── InterviewAIClient/            # React + Vite + TypeScript — web UI
+├── InterviewAI-AIMicroservice/   # Python FastAPI - AI grading + CV parsing
+├── InterviewAI-Backend/          # Node.js/Express + MongoDB - core API
+└── InterviewAIClient/            # React + Vite + TypeScript - web UI
 ```
 
 ---
@@ -17,7 +17,7 @@ InterviewAICombined/
 
 From a user's point of view there are two roles:
 
-- **Interviewers / company owners** create a company, post jobs (with the kinds of rounds the role needs — Coding, FrameworkSpecific, SystemDesign, Behavioural, KnowledgeBased), invite candidates, and review AI-generated scores and remarks.
+- **Interviewers / company owners** create a company, post jobs (with the kinds of rounds the role needs - Coding, FrameworkSpecific, SystemDesign, Behavioural, KnowledgeBased), invite candidates, and review AI-generated scores and remarks.
 - **Candidates** log in, upload a CV, sit each round of the interview (write code in an in-browser editor, draw a system design on a whiteboard, or talk to a voice agent for the knowledge round), and get an AI-produced final evaluation that combines all rounds with their CV against the job description.
 
 The interesting parts are all AI-assisted:
@@ -62,15 +62,15 @@ The interesting parts are all AI-assisted:
                                                  └────────────────────────────────┘
 ```
 
-The **Backend** is the single source of truth — the client never talks to the AI microservice directly. For any AI work (system-design grading, CV parsing, final evaluation), the backend POSTs to the AI microservice and persists the result back into the interview document in MongoDB. The voice interview flow is webhook-driven: Vapi calls back into the backend's `/api/end-of-call-report` endpoint with the transcript, and the backend uses OpenAI directly to score it.
+The **Backend** is the single source of truth - the client never talks to the AI microservice directly. For any AI work (system-design grading, CV parsing, final evaluation), the backend POSTs to the AI microservice and persists the result back into the interview document in MongoDB. The voice interview flow is webhook-driven: Vapi calls back into the backend's `/api/end-of-call-report` endpoint with the transcript, and the backend uses OpenAI directly to score it.
 
 ---
 
 ## Tech stack at a glance
 
-- **Frontend** — React 18, TypeScript, Vite, TailwindCSS + DaisyUI, React Router, TanStack Query, Monaco Editor, Excalidraw, Vapi web SDK, deployed on Vercel
-- **Backend** — Node.js, Express, TypeScript, MongoDB (Mongoose), Better Auth, BullMQ + Redis, Cloudinary, OpenAI SDK, deployed on AWS EC2 with a CI/CD pipeline
-- **AI Microservice** — Python 3.12, FastAPI, `uv` for dependency management, OpenAI SDK, Mistral SDK, Pydantic, Docker
+- **Frontend** - React 18, TypeScript, Vite, TailwindCSS + DaisyUI, React Router, TanStack Query, Monaco Editor, Excalidraw, Vapi web SDK, deployed on Vercel
+- **Backend** - Node.js, Express, TypeScript, MongoDB (Mongoose), Better Auth, BullMQ + Redis, Cloudinary, OpenAI SDK, deployed on AWS EC2 with a CI/CD pipeline
+- **AI Microservice** - Python 3.12, FastAPI, `uv` for dependency management, OpenAI SDK, Mistral SDK, Pydantic, Docker
 
 ---
 
@@ -101,4 +101,4 @@ Environment variables each service needs are listed in its own README.
 
 ## Contributing
 
-Open an issue or a PR against the relevant sub-project. Keep changes scoped to one service when possible — if a feature spans services (e.g. a new round type), it'll usually touch all three and the PR description should call that out so reviewers know to check end-to-end.
+Open an issue or a PR against the relevant sub-project. Keep changes scoped to one service when possible - if a feature spans services (e.g. a new round type), it'll usually touch all three and the PR description should call that out so reviewers know to check end-to-end.

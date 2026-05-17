@@ -1,8 +1,8 @@
-# InterviewAI — AI Microservice
+# InterviewAI - AI Microservice
 
 The AI brain of the InterviewAI platform. A small, focused **FastAPI** service that the main backend calls whenever it needs an LLM or OCR result: grading system-design submissions, parsing CVs, and producing the final interview evaluation.
 
-It is intentionally stateless — it owns no database. Inputs come in over HTTP, the service calls the appropriate model provider (OpenAI or Mistral), and structured output goes back to the caller.
+It is intentionally stateless - it owns no database. Inputs come in over HTTP, the service calls the appropriate model provider (OpenAI or Mistral), and structured output goes back to the caller.
 
 ---
 
@@ -13,13 +13,13 @@ Three HTTP endpoints, one per AI capability:
 ### `POST /api/system-design/grade`
 Grades a candidate's system-design answer (text + an optional diagram image URL) against the problem statement. Uses **OpenAI GPT-4o** with Pydantic-based structured output to return a `{ grade: 0-100, feedback: string }`.
 
-The prompt is deliberately strict — empty submissions get a 0, and the rubric is "be very critical." Multiple questions in a single request are graded as one combined conversation so the model can weigh trade-offs across answers.
+The prompt is deliberately strict - empty submissions get a 0, and the rubric is "be very critical." Multiple questions in a single request are graded as one combined conversation so the model can weigh trade-offs across answers.
 
 ### `POST /api/cv-parse`
 Takes a URL to a CV (PDF/image) and uses **Mistral's `mistral-ocr-latest`** OCR model to extract the content as markdown. The output is then used downstream by the final-evaluation endpoint and shown back to the candidate.
 
 ### `POST /api/interview/evaluate`
-The final round of the funnel. Takes everything the platform knows about a completed interview — job description, role, frameworks, the parsed CV, and the per-round scores and remarks — and asks **GPT-4.1** to produce a final 0–100 score plus detailed remarks including strengths, weaknesses, and a hiring recommendation.
+The final round of the funnel. Takes everything the platform knows about a completed interview - job description, role, frameworks, the parsed CV, and the per-round scores and remarks - and asks **GPT-4.1** to produce a final 0–100 score plus detailed remarks including strengths, weaknesses, and a hiring recommendation.
 
 All three endpoints return Pydantic models, so the calling backend gets typed JSON.
 
@@ -45,7 +45,7 @@ Each service is a class instantiated per request with the API key from env vars.
 
 - Python 3.12
 - [FastAPI](https://fastapi.tiangolo.com/) (with `[standard]` extras for the dev server)
-- [`uv`](https://github.com/astral-sh/uv) for dependency management — much faster than pip
+- [`uv`](https://github.com/astral-sh/uv) for dependency management - much faster than pip
 - [`openai`](https://github.com/openai/openai-python) for system-design and final-evaluation grading
 - [`mistralai`](https://github.com/mistralai/client-python) for CV OCR
 - [`python-dotenv`](https://github.com/theskumar/python-dotenv) for local env loading
@@ -80,7 +80,7 @@ TEST_VARIABLE=anything   # just printed on startup, useful for sanity-checking d
 
 ## Running with Docker
 
-A `Dockerfile` is included — uses the official `python:3.12-slim` image, installs `uv`, syncs the locked dependencies, and runs `main.py` on port 8000.
+A `Dockerfile` is included - uses the official `python:3.12-slim` image, installs `uv`, syncs the locked dependencies, and runs `main.py` on port 8000.
 
 ```bash
 docker build -t interviewai-ai .
@@ -91,7 +91,7 @@ docker run --env-file .env -p 8000:8000 interviewai-ai
 
 ## Deployment
 
-The service is deployed via a CI/CD pipeline and is intended to run on a small container host. The backend reaches it via the `AI_SERVICE_URL` environment variable on the backend side. CORS is currently set to `allow_origins=["*"]` for ease of development — **lock this down to the backend's origin before going to production.**
+The service is deployed via a CI/CD pipeline and is intended to run on a small container host. The backend reaches it via the `AI_SERVICE_URL` environment variable on the backend side. CORS is currently set to `allow_origins=["*"]` for ease of development - **lock this down to the backend's origin before going to production.**
 
 ---
 
@@ -103,4 +103,4 @@ If you're adding a new AI capability:
 2. Add matching Pydantic input/output models in [services_types/](services_types/).
 3. Wire it up as a route in [main.py](main.py) returning the Pydantic output model.
 
-Keep services single-purpose — the backend can chain them if a flow needs more than one.
+Keep services single-purpose - the backend can chain them if a flow needs more than one.
