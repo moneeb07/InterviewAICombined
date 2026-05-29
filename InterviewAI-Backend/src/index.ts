@@ -81,21 +81,21 @@ app.get("/", (req: express.Request, res: express.Response) => {
   });
 });
 
-// A protected route example that requires authentication
-app.get("/api/protected", (req: express.Request, res: express.Response) => {
-  // TypeScript doesn't know about our custom properties, so we need to cast
-  const authenticatedReq = req as AuthenticatedRequest;
+// // A protected route example that requires authentication
+// app.get("/api/protected", (req: express.Request, res: express.Response) => {
+//   // TypeScript doesn't know about our custom properties, so we need to cast
+//   const authenticatedReq = req as AuthenticatedRequest;
 
-  res.status(200).json({
-    message: "This is a protected route - you are authenticated!",
-    user: {
-      id: authenticatedReq.user?.id,
-      email: authenticatedReq.user?.email,
-      name: authenticatedReq.user?.name,
-      emailVerified: authenticatedReq.user?.emailVerified,
-    },
-  });
-});
+//   res.status(200).json({
+//     message: "This is a protected route - you are authenticated!",
+//     user: {
+//       id: authenticatedReq.user?.id,
+//       email: authenticatedReq.user?.email,
+//       name: authenticatedReq.user?.name,
+//       emailVerified: authenticatedReq.user?.emailVerified,
+//     },
+//   });
+// });
 
 // This will be a route to check if the AI service is running
 app.get("/ai/status", async (req: express.Request, res: express.Response) => {
